@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Flip Betting Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcome-screen">
+    <h1>Welcome To Bichwa Mwenge</h1>
+    <p>The Nostalgia!</p>
+    <img src="Whiteboard file.png" alt="Hand flipping a coin">
+    <button onclick="showLogin()">Login</button>
+    <button onclick="showRegister()">Register</button>
+  </div>
+
+  <!-- Login Screen -->
+  <div id="login-screen" style="display:none;">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Enter your username">
+    <input type="password" id="login-password" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+    <p id="login-error"></p>
+  </div>
+
+  <!-- Registration Screen -->
+  <div id="register-screen" style="display:none;">
+    <h2>Register</h2>
+    <input type="text" id="register-username" placeholder="Enter your username">
+    <input type="tel" id="register-phone" placeholder="Enter your Tanzanian phone number" pattern="0[0-9]{9}" required>
+    <input type="password" id="register-password" placeholder="Enter password">
+    <button onclick="register()">Register</button>
+    <p id="register-error"></p>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" style="display:none;">
+    <!-- Dropdown Menu for Deposit -->
+    <div class="dropdown">
+      <button class="dropbtn">Menu</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="showDeposit()">Deposit</a>
+      </div>
+    </div>
+
+    <h2>Welcome, <span id="display-username"></span></h2>
+    <h3>Your Balance: <span id="user-balance">0</span> TSH</h3>
+
+    <!-- Matchmaking Section -->
+    <div id="matchmaking-section">
+      <h2>Find an Opponent</h2>
+      <button onclick="findOpponent()">Find Opponent</button>
+      <p id="matchmaking-status"></p>
+    </div>
+
+    <!-- Role Selection -->
+    <div id="role-selection" style="display:none;">
+      <h2>Choose Your Role</h2>
+      <button onclick="chooseRole('flipper')">I will flip the coin</button>
+      <button onclick="chooseRole('guesser')">I will guess</button>
+    </div>
+
+    <!-- Game Play Section -->
+    <div id="game-play-section" style="display:none;">
+      <div id="flipper-section" style="display:none;">
+        <h2>Pick a Side: Bichwa or Mwenge?</h2>
+        <button onclick="chooseSide('Bichwa')">Bichwa</button>
+        <button onclick="chooseSide('Mwenge')">Mwenge</button>
+        <input type="number" id="bet-amount" placeholder="Enter bet amount" min="10">
+        <button onclick="flipCoin()">Flip Coin</button>
+        <p id="coin-result"></p>
+      </div>
+
+      <div id="guesser-section" style="display:none;">
+        <h2>Predict the Outcome</h2>
+        <button onclick="predictSide('Bichwa')">Bichwa</button>
+        <button onclick="predictSide('Mwenge')">Mwenge</button>
+      </div>
+
+      <p id="bet-winner"></p>
+    </div>
+
+    <!-- Chat Section -->
+    <div id="chat-box">
+      <h3>Live Chat</h3>
+      <div id="messages"></div>
+      <input type="text" id="chat-input" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- Voice Chat Button -->
+    <button id="voice-chat-btn" onclick="startVoiceChat()">Start Voice Chat</button>
+
+    <!-- Deposit Section -->
+    <div id="deposit-section" style="display:none;">
+      <h2>Deposit Funds</h2>
+      <input type="number" id="deposit-amount" placeholder="Enter amount in TSH (min: 200)" min="200">
+      <select id="payment-method">
+        <option value="mpesa">M-Pesa</option>
+        <option value="tigo">Tigo Pesa</option>
+        <option value="airtel">Airtel Money</option>
+      </select>
+      <button onclick="depositFunds()">Deposit</button>
+      <p id="deposit-status"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
