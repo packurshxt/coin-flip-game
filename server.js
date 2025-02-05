@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 // MongoDB connection string
-const uri = "YOUR_MONGODB_CONNECTION_STRING";
+const uri = "mongodb+srv://fjn4bussiness:<db_password>@cluster0coinflipgame.l3fth.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0CoinFlipGame";
 const client = new MongoClient(uri);
 
 // Serve static files
