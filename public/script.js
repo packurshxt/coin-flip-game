@@ -1,3 +1,4 @@
+this is my script.js
 let users = [];
 let currentUser = null;
 let gameRole = "";
@@ -45,7 +46,7 @@ async function login() {
   const username = document.getElementById("login-username").value;
   const password = document.getElementById("login-password").value;
 
-  const response = await fetch("/login", {
+  const response = await fetch("https://coin-flip-game1-rd6d7o55w-packurshxts-projects.vercel.app/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
