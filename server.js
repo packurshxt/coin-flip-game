@@ -1,60 +1,74 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
+
 const app = express();
 const port = 3000;
 
-// MongoDB connection string
-const uri = "mongodb+srv://fjn4bussiness:<db_password>@cluster0coinflipgame.l3fth.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0CoinFlipGame";
-const client = new MongoClient(uri);
+// ✅ Use the corrected MongoDB connection string (REPLACE `USERNAME`, `PASSWORD`, `DATABASE_NAME`)
+const uri = "mongodb+srv://fjn4bussiness:nabadilisha@cluster0coinflipgame.l3fth.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0CoinFlipGame";
 
-// Serve static files
-app.use(express.static("public"));
-app.use(express.json()); // Parse JSON data
+// ✅ Create MongoDB client (only required settings)
+const client = new MongoClient(uri, {
+  tls: true, // Ensures TLS 1.2
+});
 
-// Connect to MongoDB
 async function connectDB() {
   try {
     await client.connect();
-    console.log("Connected to MongoDB");
+    console.log("✅ Connected to MongoDB");
   } catch (err) {
-    console.error("Error connecting to MongoDB:", err);
+    console.error("❌ Error connecting to MongoDB:", err);
+    process.exit(1);
   }
 }
 connectDB();
 
-// Register a new user
+// Middleware
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Register User
 app.post("/register", async (req, res) => {
-  const { username, phone, password } = req.body;
-  const db = client.db("coin-flip-game");
-  const users = db.collection("users");
+  try {
+    const { username, phone, password } = req.body;
+    const db = client.db("coin-flip-game");
+    const users = db.collection("users");
 
-  // Check if user already exists
-  const existingUser = await users.findOne({ username });
-  if (existingUser) {
-    return res.status(400).json({ error: "Username already exists" });
+    // Check if user exists
+    const existingUser = await users.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
+
+    await users.insertOne({ username, phone, password, balance: 1000 });
+    res.json({ message: "✅ User registered successfully" });
+  } catch (error) {
+    console.error("❌ Error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-
-  // Save new user
-  await users.insertOne({ username, phone, password, balance: 1000 });
-  res.json({ message: "User registered successfully" });
 });
 
-// Login a user
+// Login User
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const db = client.db("coin-flip-game");
-  const users = db.collection("users");
+  try {
+    const { username, password } = req.body;
+    const db = client.db("coin-flip-game");
+    const users = db.collection("users");
 
-  // Find user
-  const user = await users.findOne({ username, password });
-  if (!user) {
-    return res.status(400).json({ error: "Invalid username or password" });
+    const user = await users.findOne({ username, password });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
+    res.json({ message: "✅ Login successful", user });
+  } catch (error) {
+    console.error("❌ Error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-
-  res.json({ message: "Login successful", user });
 });
 
-// Start the server
+// Start server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });

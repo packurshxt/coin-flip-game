@@ -25,7 +25,7 @@ async function register() {
   const phone = document.getElementById("register-phone").value;
   const password = document.getElementById("register-password").value;
 
-  const response = await fetch("/register", {
+  const response = await fetch("https://legendary-pancake-v6r7vvw4pxrwcwqq7-3000.app.github.dev/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, phone, password }),
